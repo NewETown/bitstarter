@@ -36,14 +36,16 @@ var checkHtmlFile = function(htmlfile, checksfile) {
 };
 
 var checkWebsite = function(url, checksfile) {
-    $ = cheerio.load(rest.get(url));
-    var checks = loadChecks(checksfile).sort();
-    var out = {};
-    for(var ii in checks) {
-	var present = $(checks[ii]).length > 0;
-	out[checks[ii]] = present;
-    }
-    return out;
+    var _ret = rest.get(url).on('complete', function(result, response) {
+	$ = cheerio.load(response.rawEncoded);
+	var checks = loadChecks(checksfile).sort();
+	var out = {};
+	for(var ii in checks) {
+	    var present = $(checks[ii]).length > 0;
+	    out[checks[ii]] = present;
+	}
+	console.log(JSON.stringify(out, null, 4));
+    });
 }
 
 var clone = function(fn) {
@@ -59,13 +61,13 @@ if(require.main == module) {
         .option('-w, --url <url>', 'Web URL to look up')
         .parse(process.argv);
     var checkJson = null;
-    if(process.argv == "--url") {
-	checkJson = checkWebsite(program.url, program.checks);
+    if(program.url) {
+	checkJson = checkWebsite(program.url.toString(), program.checks);
     } else {
 	checkJson = checkHtmlFile(program.file, program.checks);
+	var outJson = JSON.stringify(checkJson, null, 4);
+	console.log(outJson);
     }
-    var outJson = JSON.stringify(checkJson, null, 4);
-    console.log(outJson);
 } else {
     exports.checkHtmlFile = checkHtmlFile;
 }
