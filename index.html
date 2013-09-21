@@ -81,6 +81,14 @@
   </head>
 
   <body>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=213597198809642";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 
     <div class="container">
 
@@ -106,7 +114,7 @@
           <div class="col-md-10 col-md-offset-1">
             <div class="request">
               <p>Help me spread the word and liking my <a href="https://www.facebook.com/AliveAndModern">Facebook page</a>. Product pricing and updates (including a Kickstarter campaign) will be posted as soon as possible.</p>
-              <p><a class="addthis_button_facebook_like" fb:like:jref="https://www.facebook.com/AliveAndModern"></a></p>
+              <div class="fb-like" data-href="https://www.facebook.com/AliveAndModern" data-width="450" data-show-faces="true" data-send="true"></div>
             </div>
           </div>
           <!--
